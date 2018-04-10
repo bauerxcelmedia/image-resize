@@ -1,0 +1,38 @@
+{
+    "name": "@bxm/image-resize",
+    "version": "1.0.0",
+    "description": "Create URLs that integrate with the https://imageresizing.net service.",
+    "main": "lib/index.js",
+    "license": "LICENSE.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bauerxcelmedia/image-resize.git"
+    },
+    "publishConfig": {
+        "scope": "@bxm",
+        "registry": "http://npm.digital.bauer-media.net.au"
+    },
+    "scripts": {
+        "build": "babel src --out-dir lib",
+        "clean": "rimraf lib",
+        "prepublish": "npm run clean && npm test && npm run build",
+        "test": "babel-node ./node_modules/mocha/bin/_mocha --recursive --check-leaks",
+        "test:debug": "babel-node $NODE_DEBUG_OPTION ./node_modules/babel-istanbul/lib/cli cover --root ./src --include-all-sources --report html ./node_modules/mocha/bin/_mocha -- --recursive --check-leaks",
+        "test:ci": "npm run test -- --reporter=xunit --reporter-options output=shippable/testresults/result.xml",
+        "lint": "eslint --ext .js,.jsx src/",
+        "release": "npm version",
+        "postrelease": "npm publish && git push origin HEAD --follow-tags"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-eslint": "^8.2.2",
+        "babel-istanbul": "^0.12.2",
+        "babel-plugin-add-module-exports": "^0.2.1",
+        "babel-preset-es2015": "^6.24.1",
+        "chai": "^4.1.2",
+        "eslint": "^4.19.1",
+        "mocha": "^5.0.5",
+        "rimraf": "^2.6.2"
+    },
+    "dependencies": {}
+}
