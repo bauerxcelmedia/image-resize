@@ -1,0 +1,38 @@
+# language setting
+build_environment: Ubuntu 12.04
+language: node_js
+node_js: "8.9.1"
+
+build:
+  cache: true
+  cache_dir_list:
+    - $SHIPPABLE_BUILD_DIR/node_modules
+  ci:
+    - npm set @bxm:registry http://npm.digital.bauer-media.net.au
+    - mkdir -p ./shippable/testresults ./shippable/codecoverage ./shippable/buildoutput
+    - echo $BUILD_NUMBER > ~/buildConfig.txt
+    - npm install
+    - npm run test:ci
+  post_ci:
+    - ./node_modules/.bin/babel-istanbul report cobertura --dir  ./shippable/codecoverage/
+
+branches:
+  only:
+    - master
+    - feature/*
+    - fix/*
+
+#Integration and Notifications
+integrations:
+  notifications:
+    - integrationName: slack-bauerxcelmedia
+      type: slack
+      recipients:
+        - "au-shippable"
+      branches:
+        only:
+          - master
+          - feature/*
+          - fix/*
+      on_success: always
+      on_failure: always

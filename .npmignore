@@ -1,0 +1,7 @@
+node_modules
+cover
+.idea
+.babelrc
+.eslintrc
+.istanbul.yml
+lint-scss-config.yml
